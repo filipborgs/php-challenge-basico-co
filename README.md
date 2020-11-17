@@ -47,8 +47,8 @@ Escrever a documentação da API utlizando conceito [OpenAPI Specification](http
 
 ### Extras
 
-- **Diferencial 1 -** Escrever um fluxo em background para processar o upload de produtos usando [Resque](https://github.com/resque/resque) 
-- **Diferencial 2 -** Escrever Unit Test utilizando [RSpec](https://rspec.info/)
+- **Diferencial 1 -** Escrever um fluxo em background para processar o upload de produtos usando [Queue](https://www.php.net/manual/es/class.ds-queue.php) 
+- **Diferencial 2 -** Escrever Unit Test utilizando [PHPUnit](https://phpunit.de/)
 - **Diferencial 3 -** Executar o projeto usando Docker
 - **Diferencial 4 -** Escrever o esquema de segurança aplicado nos endpoints 
  
