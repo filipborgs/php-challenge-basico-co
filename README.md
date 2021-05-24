@@ -109,7 +109,7 @@ Após remover com êxito, notificar o usuário com um alerta de sucesso.
  
 ## Finalização 
 
-Avisar sobre a finalização e enviar para correção em: [https://coodesh.com/review-challenge](https://bit.ly/3e7MjcK) 
+Avisar sobre a finalização e enviar para correção em: [https://coodesh.com/review-challenge](https://coodesh.com/review-challenge) 
 Após essa etapa será marcado a apresentação/correção do projeto.
 
 ## Instruções para a Apresentação: 
