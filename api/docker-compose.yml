@@ -1,0 +1,40 @@
+version: "3"
+networks:
+  php_network:
+  mysql_netwrok:
+
+services:
+  nginx_service:
+    image: nginx:stable-alpine
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php_service
+    networks:
+      - php_network
+
+  php_service:
+    build: .
+    working_dir: /var/www/html
+    depends_on:
+      - mysql_service
+    volumes:
+      - .:/var/www/html
+      - ./xdebug/docker-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+    networks:
+      - mysql_netwrok
+      - php_network
+
+  mysql_service:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: teste
+    networks:
+      - mysql_netwrok
+      - php_network
