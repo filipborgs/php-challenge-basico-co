@@ -15,28 +15,34 @@ class ProductRepository extends AbstractRepository implements ProductContract
     public function save($data)
     {
         $this->validator($data, $this->model->rules());
-        $product = $this->model->fill($data);
-        $product->save();
-        return $product->array();
+        $product = $this->model->create();
+        if (!$product) {
+            return false;
+        }
+        return $product->toArray();
     }
 
     public function update($data, $id)
     {
         $this->validator($data, $this->model->rules());
+        $product = $this->model->findOrFail($id);
+        return $product->fill($data)->save();
     }
 
     public function all($request)
     {
-        return $this->model->paginate();
+        return $this->model->all();
     }
 
     public function delete(int $id)
     {
-        return $this->model->find($id)->delete();
+        $product = $this->model->findOrFail($id);
+        return $product->delete();
     }
 
     public function show(int $id)
     {
-        return $this->model->find($id);
+        $product = $this->model->findOrFail($id);
+        return $product->toArray();
     }
 }
