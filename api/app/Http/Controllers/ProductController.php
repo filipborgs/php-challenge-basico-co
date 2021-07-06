@@ -3,13 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\ProductContract;
+use App\Exceptions\ValidationException;
+use App\Jobs\ProcessProductJson;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-    public function store()
+    public function store(Request $request)
     {
-        return "";
+        $file = $request->file('products');
+        if (!$request->hasFile('products') || !$file->isValid()) {
+            return response('Arquivo ausente ou invalido', 400);
+        }
+
+        if ($file->extension() != 'json') {
+            return response('O arquivo precisa ser um json', 400);
+        }
+
+        $path = $file->store('local');
+        ProcessProductJson::dispatch($path);
+
+        return response('Json enivado com sucesso', 200);
     }
 
     public function all(ProductContract $repository, Request $request)

@@ -15,7 +15,7 @@ class ProductRepository extends AbstractRepository implements ProductContract
     public function save($data)
     {
         $this->validator($data, $this->model->rules());
-        $product = $this->model->create();
+        $product = $this->model->create($data);
         if (!$product) {
             return false;
         }

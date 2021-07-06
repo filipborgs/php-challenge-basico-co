@@ -23,6 +23,7 @@ class CreateProductsTable extends Migration
             $table->integer('height')->nullable();
             $table->integer('width')->nullable();
             $table->integer('rating')->nullable();
+            $table->timestamps();
         });
     }
 
