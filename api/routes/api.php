@@ -21,6 +21,7 @@ Route::get('/', function () {
 Route::group(
     [
         'prefix' => 'products',
+        'middleware' => ['api', 'apikey'],
     ],
     function () {
         Route::post('/', [ProductController::class, 'store']);
