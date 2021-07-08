@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\ProductContract;
-use App\Exceptions\ValidationException;
 use App\Jobs\ProcessProductJson;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -36,7 +33,7 @@ class ProductController extends Controller
     public function show(ProductContract $repository, $id)
     {
         if (!intval($id)) {
-            return response('Bad Request', 400);
+            return $this->responseJson('O id é obrigatório', 400);
         }
         $product = $repository->show($id);
         return response()->json($product, 200);
@@ -46,7 +43,7 @@ class ProductController extends Controller
     {
         $productData = $request['product'];
         if (!intval($id) || !is_array($productData)) {
-            return response('Bad Request', 400);
+            return $this->responseJson('O produto é obrigatório', 400);
         }
         $product = $repository->update($productData, $id);
         return response()->json($product, 200);
@@ -55,13 +52,18 @@ class ProductController extends Controller
     public function delete(ProductContract $repository, $id)
     {
         if (!intval($id)) {
-            return response('Bad Request', 400);
+            return $this->responseJson('O id é obrigatório', 400);
         }
         $deleted = $repository->delete($id);
         if ($deleted) {
-            return response()->json('Deletado', 200);
+            return $this->responseJson('Deletado', 200);
         } else {
-            return response()->json('Não foi possivel deletar ou o produto não existe', 409);
+            return $this->responseJson('Não foi possivel deletar ou o produto não existe', 409);
         }
+    }
+
+    private function responseJson($mens, $code)
+    {
+        return response()->json(['message' => $mens], $code);
     }
 }

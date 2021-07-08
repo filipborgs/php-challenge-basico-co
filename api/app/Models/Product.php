@@ -19,7 +19,7 @@ class Product extends Model
         return [
             'title' => 'required',
             'type' => 'required',
-            'price' => 'required',
+            'price' => 'required|numeric',
         ];
     }
 }

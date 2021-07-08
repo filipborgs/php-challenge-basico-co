@@ -36,7 +36,10 @@ class ProductRepository extends AbstractRepository implements ProductContract
 
     public function delete(int $id)
     {
-        $product = $this->model->findOrFail($id);
+        $product = $this->model->find($id);
+        if (!$product) {
+            return false;
+        }
         return $product->delete();
     }
 
