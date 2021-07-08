@@ -45,6 +45,28 @@ const store = {
             }
         },
 
+        async getProducts({ commit }) {
+            commit('SET_LOADING');
+            try {
+                const { data } = await axios.get("/products");
+                commit('SET_PRODUCTS', data);
+            } finally {
+                commit('SET_LOADING');
+            }
+        },
+
+        async deleteProduct({ commit }, id) {
+            commit('SET_LOADING');
+            try {
+                await axios.delete(`/products/${id}`);
+                return 'Produto deletado com sucesso!';
+            } catch (e) {
+                throw e.response.data.message;
+            } finally {
+                commit('SET_LOADING');
+            }
+        },
+
         destroyStore({ state }) {
             Object.assign(state, getState());
         }
@@ -59,6 +81,10 @@ const store = {
 
         SET_LOADING(state) {
             state.loading = !state.loading;
+        },
+
+        SET_PRODUCTS(state, products) {
+            state.products = products;
         }
     }
 }
