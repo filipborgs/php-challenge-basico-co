@@ -5,11 +5,11 @@
       <Tabs />
       <div class="centered-container">
         <md-content class="md-elevation-3">
+          <md-progress-bar md-mode="indeterminate" v-if="loading" />
           <router-view />
         </md-content>
       </div>
     </md-content>
-
   </div>
 </template>
 

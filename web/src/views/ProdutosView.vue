@@ -10,6 +10,7 @@
 <script>
 import ProductsTable from "@/components/product/ProductsTable.vue";
 import ProductJsonForm from "../components/product/ProductJsonForm.vue";
+
 export default {
   components: {
     ProductsTable,

@@ -7,11 +7,22 @@ import router from './router'
 import "./plugins/axios"
 import Vuelidate from 'vuelidate'
 import store from './store';
+import { mapState, mapActions } from 'vuex'
 
 Vue.use(Vuelidate)
 Vue.use(VueMaterial)
 
 Vue.config.productionTip = false
+
+//global mixing
+Vue.mixin({
+    methods: {
+        ...mapActions(["saveProduct", "getProduct", "destroyStore"])
+    },
+    computed: {
+        ...mapState({ products: "products", product: "product", loading: "loading" })
+    }
+});
 
 new Vue({
     router,
