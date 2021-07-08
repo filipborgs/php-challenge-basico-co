@@ -17,7 +17,9 @@ Vue.config.productionTip = false
 //global mixing
 Vue.mixin({
     methods: {
-        ...mapActions(["saveProduct", "getProduct", "destroyStore", "getProducts", "deleteProduct"])
+        ...mapActions(["saveProduct", "getProduct", "destroyStore",
+            "getProducts", "deleteProduct", "uploadProductJson"
+        ])
     },
     computed: {
         ...mapState({ products: "products", product: "product", loading: "loading" })

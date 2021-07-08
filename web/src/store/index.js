@@ -55,6 +55,31 @@ const store = {
             }
         },
 
+        async uploadProductJson({ commit }, file) {
+            commit('SET_LOADING');
+
+            const formData = new FormData();
+            formData.append("products", file);
+
+            const request = {
+                method: 'post',
+                url: '/products',
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+                data: formData
+            }
+
+            try {
+                await axios(request);
+                return "Json enivado com sucesso, e está sendo processado, em instantes ele estará disponível"
+            } catch (e) {
+                alert(e.response.data);
+            } finally {
+                commit('SET_LOADING');
+            }
+        },
+
         async deleteProduct({ commit }, id) {
             commit('SET_LOADING');
             try {
