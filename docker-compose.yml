@@ -1,0 +1,52 @@
+version: "3"
+networks:
+  php_network:
+
+services:
+  nginx_service:
+    image: nginx:stable-alpine
+    ports:
+      - "8000:80"
+    volumes:
+      - ./api:/var/www/html
+      - ./api/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - queue_service
+    networks:
+      - php_network
+
+  php_service:
+    build: ./api
+    working_dir: /var/www/html
+    depends_on: 
+      - composer
+    networks:
+      - php_network
+    volumes:
+      - ./api:/var/www/html
+      - ./api/xdebug/docker-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+  
+  queue_service:
+    build: ./api/queue
+    working_dir: /var/www/html
+    command: php artisan queue:work
+    restart: always
+    depends_on: 
+      - php_service
+    volumes:
+      - ./api:/var/www/html
+  
+  composer:
+    image: composer/composer
+    volumes:
+      - ./api:/var/www/html
+    working_dir: /var/www/html
+    command: bash -c "composer install && cp .env.example .env && php artisan key:generate && chmod 777 -R public bootstrap storage"
+
+  node_fb:
+    build: ./web
+    container_name: desafio-node-fb
+    command: npm run serve
+    working_dir: '/web'
+    ports:
+      - "8089:8080"
