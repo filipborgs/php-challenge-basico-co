@@ -1,6 +1,31 @@
 # PHP Challenge 20201117
+### Made with:
+
+PHP / Laravel / VueJS / Vue Material
+
+### Description
+
+System to upload a JSON file to register products in database. 
+This project is separete in two modules:
+ - api: REST API made for handle the upload and CRUD of produts (To process the JSON file, is used laravel queue)
+ - web: Frontend to consume the REST API
+
+## Installation
+
+You just need docker and docker compose
+
+```console
+git clone https://lab.coodesh.com/filipborgs48/php-challenge-20201117.git
+cd php-challenge-20201117
+docker-compose up
+```
 
 
+And wait everything load up
+
+--------------------------------------------------------
+
+# Challenge
 ### Obrigatório
  
 - Leia atentamente todo o descritivo desse documento antes de qualquer coisa;
