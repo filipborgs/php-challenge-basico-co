@@ -1,6 +1,245 @@
-openapi: 3.0.1
+---
+openapi: 3.0.0
 info:
-  title: PHP Challenge 20201117
-  description: CRUD Products
-  version: '0.1'
+  title: API php-challenge-20201117
+  description: Teste Codesh
+  version: v1
+servers:
+- url: http://localhost:8000/api/v1
+paths:
+  /:
+    get:
+      summary: Return the challenge message
+      responses:
+        "200":
+          description: Message
+          
+  /products:
+    get:
+      summary: Return all products
+      security: 
+      - api_key: []
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductBasic'
+    post:
+      summary: Update a product
+      security: 
+      - api_key: []
+      requestBody:
+         content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                products:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Product'
+                  format: application/json
+      responses:
+        "200":
+          description: Product updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageJson'
+        "400":
+          description: Missing id in path
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageJson'
+        "404":
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageJson'
+   
+  /products/{idProduct}:
+    put:
+      summary: Update a product
+      security: 
+      - api_key: []
+      parameters: 
+        - name: 'idProduct'
+          in: path
+          description: The product id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                product: 
+                  $ref: '#/components/schemas/Product'
+        description: Updated product object
+        required: true
+      responses:
+        "200":
+          description: Product updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageJson'
+        "400":
+          description: Missing id in path
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageJson'
+        "404":
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageJson'
+    
+    get:
+      summary: Return a single product
+      security: 
+      - api_key: []
+      parameters: 
+        - name: 'idProduct'
+          in: path
+          description: The product id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageJson'
+        "400":
+          description: Invalid object in request body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageJson'
+        "404":
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageJson'
 
+    delete:
+      summary: Delete a product
+      security: 
+      - api_key: []
+      parameters: 
+        - name: 'idProduct'
+          in: path
+          description: The product id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Product deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageJson'
+        "400":
+          description: Invalid object in request body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageJson'
+        "404":
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageJson'
+        "409":
+          description: Unable to delete
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageJson'
+components:
+  schemas:
+    MessageJson:
+      type: object
+      properties:
+        message: 
+          type: string
+    ProductBasic:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        price:
+          type: number
+        rating:
+          type: integer
+        created_at:
+          type: string
+      description: Product object
+      
+    ProductFullId:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        filename:
+          type: string
+        width:
+          type: integer
+        height:
+          type: integer
+        price:
+          type: number
+        rating:
+          type: integer
+        created_at:
+          type: string
+      description: Product object
+      
+    Product:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+        filename:
+          type: string
+        width:
+          type: integer
+        height:
+          type: integer
+        price:
+          type: number
+        rating:
+          type: integer
+      description: Product object
+    
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: key
+      in: header

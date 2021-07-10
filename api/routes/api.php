@@ -14,18 +14,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/v1', function () {
     return 'PHP Challenge 20201117';
 });
 
 Route::group(
     [
-        'prefix' => 'products',
+        'prefix' => 'v1/products',
         'middleware' => ['api', 'apikey'],
     ],
     function () {
         Route::post('/', [ProductController::class, 'store']);
         Route::get('/', [ProductController::class, 'all']);
+        Route::get('/paginate', [ProductController::class, 'paginate']);
         Route::get('/{id}', [ProductController::class, 'show']);
         Route::put('/{id}', [ProductController::class, 'update']);
         Route::delete('/{id}', [ProductController::class, 'delete']);

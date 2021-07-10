@@ -1,11 +1,11 @@
 # PHP Challenge 20201117
 ### Made with:
 
-PHP / Laravel / VueJS / Vue Material
+PHP / Laravel / VueJS / Vue Material / MySQL
 
 ### Description
 
-System to upload a JSON file to register products in database. 
+Project to upload a JSON file to register products in database. 
 This project is separete in two modules:
  - api: REST API made for handle the upload and CRUD of produts (To process the JSON file, is used laravel queue)
  - web: Frontend to consume the REST API
@@ -17,12 +17,29 @@ You just need docker and docker compose
 ```console
 git clone https://lab.coodesh.com/filipborgs48/php-challenge-20201117.git
 cd php-challenge-20201117
-docker-compose up
+cp api/.env.example api/.env
+docker-compose up -d
+docker exec desafio-php-fb composer install
+sudo chmod 777 -R api/public api/bootstrap api/storage
+docker exec desafio-php-fb php artisan key:generate
+docker exec desafio-php-fb php artisan queue:work
+
 ```
 
+The API base url is http://localhost:8000/api/v1
+The Frontend base url is http://localhost:8089
 
-And wait everything load up
+## Documentation
 
+The security method of the endpoints is API KEY, send in the header of request:
+
+```
+headers: {
+    'key': 'qNBC!GvgpFHJNVLmD7su'
+}
+```
+More information in: 
+https://app.swaggerhub.com/apis/filipborgs/php-challenge-20201117/v1
 --------------------------------------------------------
 
 # Challenge
