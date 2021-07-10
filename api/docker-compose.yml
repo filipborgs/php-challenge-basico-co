@@ -19,6 +19,7 @@ services:
   php_service:
     build: .
     working_dir: /var/www/html
+    container_name: desafio-php-fb
     depends_on:
       - mysql_service
     volumes:

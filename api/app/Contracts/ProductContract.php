@@ -12,5 +12,7 @@ interface ProductContract
 
     public function show(int $id);
 
-    public function all(array $request);
+    public function all();
+
+    public function allPaginate(array $request);
 }

@@ -29,9 +29,23 @@ class ProductRepository extends AbstractRepository implements ProductContract
         return $product->fill($data)->save();
     }
 
-    public function all($request)
+    public function all()
     {
         return $this->model->all();
+    }
+
+    public function allPaginate($request)
+    {
+        $search = array_key_exists('search', $request) ? $request['search'] : null;
+        return $this->model->select(
+            'id',
+            'title',
+            'type',
+            'price',
+            'rating',
+            'created_at'
+        )
+            ->where('title', 'LIKE', "%$search%")->paginate(10);
     }
 
     public function delete(int $id)

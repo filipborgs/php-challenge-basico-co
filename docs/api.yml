@@ -5,6 +5,9 @@ info:
   description: Teste Codesh
   version: v1
 servers:
+# Added by API Auto Mocking Plugin
+- description: SwaggerHub API Auto Mocking
+  url: https://virtserver.swaggerhub.com/filipborgs/php-challenge-20201117/v1
 - url: http://localhost:8000/api/v1
 paths:
   /:
@@ -27,7 +30,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ProductBasic'
+                  $ref: '#/components/schemas/ProductFullId'
     post:
       summary: Update a product
       security: 
@@ -62,7 +65,47 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MessageJson'
-   
+  
+  /products/paginate:
+    get:
+      summary: Return all products paginated
+      security: 
+      - api_key: []
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  current_page: 
+                    type: integer
+                  first_page_url:
+                    type: string
+                  from:
+                    type: integer
+                  last_page:
+                    type: integer
+                  last_page_url:
+                    type: string
+                  next_page_url:
+                    type: string
+                  path:
+                    type: string
+                  per_page:
+                    type: integer
+                  prev_page_url:
+                    type: string
+                  to:
+                    type: integer
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ProductBasic'
+
   /products/{idProduct}:
     put:
       summary: Update a product
@@ -122,7 +165,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MessageJson'
+                $ref: '#/components/schemas/ProductFullId'
         "400":
           description: Invalid object in request body
           content:

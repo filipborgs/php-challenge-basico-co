@@ -10,7 +10,7 @@ This project is separete in two modules:
  - api: REST API made for handle the upload and CRUD of produts (To process the JSON file, is used laravel queue)
  - web: Frontend to consume the REST API
 
-## Installation
+## Installation and Running
 
 You just need docker and docker compose
 
@@ -25,7 +25,6 @@ docker exec desafio-php-fb php artisan key:generate
 docker exec desafio-php-fb php artisan queue:work
 
 ```
-
 The API base url is http://localhost:8000/api/v1
 The Frontend base url is http://localhost:8089
 

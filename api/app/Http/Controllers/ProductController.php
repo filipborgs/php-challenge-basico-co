@@ -27,7 +27,12 @@ class ProductController extends Controller
 
     public function all(ProductContract $repository, Request $request)
     {
-        return $repository->all($request->all());
+        return $repository->all();
+    }
+
+    public function paginate(ProductContract $repository, Request $request)
+    {
+        return $repository->allPaginate($request->all());
     }
 
     public function show(ProductContract $repository, $id)
@@ -46,7 +51,11 @@ class ProductController extends Controller
             return $this->responseJson('O produto é obrigatório', 400);
         }
         $product = $repository->update($productData, $id);
-        return response()->json($product, 200);
+        if (!$product) {
+            return $this->responseJson('Não foi possivel atualizar o produto', 400);
+        } else {
+            return $this->responseJson('Produto atualizado com sucesso', 200);
+        }
     }
 
     public function delete(ProductContract $repository, $id)
