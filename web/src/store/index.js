@@ -13,7 +13,13 @@ const getState = () => ({
         description: null,
         price: null,
     },
-    loading: false
+    loading: false,
+    paginate: {
+        nextPage: 1,
+        lastPage: null,
+        search: null,
+        totalProduct: null
+    }
 })
 
 const store = {
@@ -80,10 +86,11 @@ const store = {
             }
         },
 
-        async deleteProduct({ commit }, id) {
+        async deleteProduct({ commit }, { id, index }) {
             commit('SET_LOADING');
             try {
                 await axios.delete(`/products/${id}`);
+                commit('REMOVE_PRODUCT', index);
                 return 'Produto deletado com sucesso!';
             } catch (e) {
                 throw e.response.data.message;
@@ -92,9 +99,35 @@ const store = {
             }
         },
 
+        async getProductsPaginate({ commit, state }) {
+            const next = state.paginate.nextPage;
+            const last = state.paginate.lastPage;
+            if (last && next > last) {
+                return
+            }
+            commit('SET_LOADING');
+
+            const request = {
+                method: "get",
+                url: "/products/paginate",
+                params: {
+                    page: next,
+                    search: state.paginate.search
+                }
+            }
+            try {
+                const { data } = await axios(request);
+                commit('SET_PAGE', data);
+                commit('SET_PRODUCTS', data.data);
+            } finally {
+                commit('SET_LOADING');
+            }
+        },
+
         destroyStore({ state }) {
             Object.assign(state, getState());
-        }
+        },
+
     },
 
     mutations: {
@@ -109,7 +142,21 @@ const store = {
         },
 
         SET_PRODUCTS(state, products) {
-            state.products = products;
+            console.log(products);
+            if (state.paginate.nextPage == 2)
+                state.products = products;
+            else
+                state.products.push(...products);
+        },
+
+        REMOVE_PRODUCT(state, index) {
+            state.products.splice(index, 1);
+        },
+
+        SET_PAGE(state, { current_page, last_page, total }) {
+            state.paginate.nextPage = current_page + 1;
+            state.paginate.lastPage = last_page;
+            state.paginate.totalProduct = total;
         }
     }
 }

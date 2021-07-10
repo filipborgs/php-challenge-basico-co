@@ -18,11 +18,17 @@ Vue.config.productionTip = false
 Vue.mixin({
     methods: {
         ...mapActions(["saveProduct", "getProduct", "destroyStore",
-            "getProducts", "deleteProduct", "uploadProductJson"
+            "getProducts", "deleteProduct", "uploadProductJson",
+            "getProductsPaginate"
         ])
     },
     computed: {
-        ...mapState({ products: "products", product: "product", loading: "loading" })
+        ...mapState({
+            paginate: "paginate",
+            products: "products",
+            product: "product",
+            loading: "loading"
+        })
     }
 });
 
