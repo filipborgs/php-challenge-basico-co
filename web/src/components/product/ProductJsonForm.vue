@@ -20,8 +20,13 @@
       </div>
 
       <div class="md-layout-item md-size-5">
-        <md-button class="md-primary md-raised" @click="validate"
-          >Enviar</md-button
+        <md-button
+          class="md-primary md-raised"
+          @click="validate"
+          :disabled="loading"
+          >
+            <md-icon>upload</md-icon>
+          Enviar</md-button
         >
       </div>
     </div>
