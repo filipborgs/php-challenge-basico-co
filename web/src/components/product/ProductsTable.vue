@@ -11,7 +11,7 @@
     />
     <md-divider></md-divider>
     <div class="md-layout pt-3 md-gutter" :class="`md-alignment-center-center`">
-      <div class="md-layout-item md-size-35">
+      <div class="md-layout-item">
         <md-field md-clearable>
           <md-icon>search</md-icon>
           <label for="title">Pesquisa</label>
@@ -24,7 +24,20 @@
         </md-field>
       </div>
 
-      <div v-if="products.length" class="md-layout-item md-size-10">
+      <div class="md-layout-item md-size-5">
+        <md-button
+          :disabled="loading"
+          @click="$router.go()"
+          class="md-fab md-mini"
+        >
+          <md-icon>refresh</md-icon>
+        </md-button>
+      </div>
+
+      <div
+        v-if="products.length"
+        class="md-layout-item md-size-10 md-small-hide"
+      >
         Exibindo: {{ products.length }} de {{ paginate.totalProduct }}
       </div>
     </div>

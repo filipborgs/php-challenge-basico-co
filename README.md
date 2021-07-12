@@ -12,7 +12,7 @@ This project is separete in two modules:
 
 ## Installation and Running
 
-You just need docker and docker compose
+You just need git, docker and docker compose
 
 ```console
 git clone https://lab.coodesh.com/filipborgs48/php-challenge-20201117.git
@@ -27,6 +27,9 @@ docker exec desafio-php-fb php artisan queue:work
 ```
 The API base url is http://localhost:8000/api/v1
 The Frontend base url is http://localhost:8089
+
+## Database
+The database is hospedated on Heroku Jawsdb, and alwaready configurated in .env.exemple
 
 ## Documentation
 
